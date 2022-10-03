@@ -46,7 +46,7 @@ const AuthForm = () => {
     })
       .then((res) => {
         setIsLoading(false);
-        console.log('HHHHHHHHHHHHHHHH')
+       
         if (res.ok) {
           return res.json();
         } else {
