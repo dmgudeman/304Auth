@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from 'react';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import AuthContext from '../../store/auth-context';
 
 import classes from './AuthForm.module.css';
@@ -41,7 +41,7 @@ const AuthForm = () => {
         returnSecureToken: true,
       }),
       headers: {
-        'Content-Type': 'applicstion/json',
+        'Content-Type': 'application/json',
       },
     })
       .then((res) => {
@@ -60,9 +60,14 @@ const AuthForm = () => {
         }
       })
       .then((data) => {
-        authCtx.login(data.idToken);
-        history.replace('/');
+        const expirationTime = new Date(
+          new Date().getTime() + +data.expiresIn * 1000
+        );
+        console.log(expirationTime.toISOString());
 
+        authCtx.login(data.idToken, expirationTime.toISOString());
+        history.replace('/');
+        console.log(data);
       })
       .catch((err) => {
         alert(err.Message);
